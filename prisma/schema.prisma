@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model board {
+model Board {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
