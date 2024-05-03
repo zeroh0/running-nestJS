@@ -21,7 +21,7 @@ export class BoardService {
     return this.prisma.board.findMany();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Board | null> {
     return this.prisma.board.findUnique({
       where: {
         id: id,
@@ -29,7 +29,7 @@ export class BoardService {
     });
   }
 
-  update(id: number, updateBoardDto: UpdateBoardDto) {
+  update(id: number, updateBoardDto: UpdateBoardDto): Promise<Board> {
     return this.prisma.board.update({
       where: { id: id },
       data: {
@@ -39,7 +39,7 @@ export class BoardService {
     });
   }
 
-  remove(id: number) {
+  remove(id: number): Promise<Board> {
     return this.prisma.board.delete({
       where: { id: id },
     });
