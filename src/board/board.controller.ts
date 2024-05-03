@@ -31,8 +31,8 @@ export class BoardController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBoardDto: UpdateBoardDto) {
-    return this.boardService.update(+id, updateBoardDto);
+  update(@Param('id') id: number, @Body() updateBoardDto: UpdateBoardDto) {
+    return this.boardService.update(id, updateBoardDto);
   }
 
   @Delete(':id')

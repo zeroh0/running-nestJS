@@ -30,7 +30,13 @@ export class BoardService {
   }
 
   update(id: number, updateBoardDto: UpdateBoardDto) {
-    return `This action updates a #${id} board`;
+    return this.prisma.board.update({
+      where: { id: id },
+      data: {
+        title: updateBoardDto.title,
+        content: updateBoardDto.content,
+      },
+    });
   }
 
   remove(id: number) {
