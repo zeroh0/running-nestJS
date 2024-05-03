@@ -8,8 +8,13 @@ import { PrismaService } from '../prisma.service';
 export class BoardService {
   constructor(private prisma: PrismaService) {}
 
-  create(createBoardDto: CreateBoardDto) {
-    return 'This action adds a new board';
+  async create(createBoardDto: CreateBoardDto): Promise<Board> {
+    return this.prisma.board.create({
+      data: {
+        title: createBoardDto.title,
+        content: createBoardDto.content,
+      },
+    });
   }
 
   async findAll(): Promise<Board[]> {
