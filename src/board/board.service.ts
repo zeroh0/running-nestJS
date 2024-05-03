@@ -40,6 +40,8 @@ export class BoardService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} board`;
+    return this.prisma.board.delete({
+      where: { id: id },
+    });
   }
 }
