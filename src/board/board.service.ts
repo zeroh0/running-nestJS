@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { Board } from '@prisma/client';
@@ -29,7 +29,10 @@ export class BoardService {
     });
   }
 
-  update(id: number, updateBoardDto: UpdateBoardDto): Promise<Board> {
+  async update(id: number, updateBoardDto: UpdateBoardDto): Promise<Board> {
+    // 게시글이 존재하는지 확인
+    await this.checkExistBoard(id);
+
     return this.prisma.board.update({
       where: { id: id },
       data: {
@@ -39,9 +42,24 @@ export class BoardService {
     });
   }
 
-  remove(id: number): Promise<Board> {
+  async remove(id: number): Promise<Board> {
+    await this.checkExistBoard(id);
+
     return this.prisma.board.delete({
       where: { id: id },
     });
+  }
+
+  /**
+   * 게시글이 존재하는지 확인
+   * @param id 게시글 ID
+   * @private
+   */
+  private async checkExistBoard(id: number) {
+    // 게시글이 존재하는지 확인
+    const board = await this.findOne(id);
+    if (!board) {
+      throw new NotFoundException('존재하지 않는 게시글입니다.');
+    }
   }
 }
