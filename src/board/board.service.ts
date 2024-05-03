@@ -16,8 +16,12 @@ export class BoardService {
     return this.prisma.board.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  async findOne(id: number) {
+    return this.prisma.board.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
   update(id: number, updateBoardDto: UpdateBoardDto) {
